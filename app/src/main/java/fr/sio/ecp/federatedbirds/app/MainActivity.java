@@ -5,10 +5,11 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import java.net.URL;
 import java.util.List;
 
 import fr.sio.ecp.federatedbirds.R;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Message>> {
 
     private static final int LOADER_MESSAGES = 0;
+
+    private MessagesAdapter mMessagesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,10 @@ public class MainActivity extends AppCompatActivity
 
         });
 
+        RecyclerView listView = (RecyclerView) findViewById(R.id.list);
+        listView.setLayoutManager(new LinearLayoutManager(this));
+        mMessagesAdapter = new MessagesAdapter();
+        listView.setAdapter(mMessagesAdapter);
     }
 
     @Override
@@ -67,12 +74,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<List<Message>> onCreateLoader(int id, Bundle args) {
-        return null;
+        return new MessagesLoader(this);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Message>> loader, List<Message> messages) {
-        // Display messages
+        mMessagesAdapter.setMessages(messages);
     }
 
     @Override

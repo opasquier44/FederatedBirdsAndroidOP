@@ -20,7 +20,7 @@ import fr.sio.ecp.federatedbirds.model.User;
  */
 public class ApiClient {
 
-    private static final String API_BASE = "http://localhost:8080/";
+    private static final String API_BASE = "http://10.0.2.2:8080/";
 
     private static ApiClient mInstance;
 
@@ -36,7 +36,7 @@ public class ApiClient {
     }
 
     private String getUserToken() {
-        return "azetyiu";
+        return "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxIn0.jptU18MuPX0ytbzSqfNFSlhbxiTDAGpiYDcAQLRqC8ewAbW-7g--DNu3codmYEhVSWkliXSSjd3P596STCDO7g";
     }
 
     private <T> T get(String path, Type type) throws IOException {
@@ -56,11 +56,11 @@ public class ApiClient {
 
     public List<Message> getMessages() throws IOException {
         TypeToken<List<Message>> type = new TypeToken<List<Message>>() {};
-        return get("/messages", type.getType());
+        return get("messages", type.getType());
     }
 
     public User getUser(long id) throws IOException {
-        return get("/users/" + id, User.class);
+        return get("users/" + id, User.class);
     }
 
 }
