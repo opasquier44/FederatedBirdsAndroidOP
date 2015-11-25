@@ -4,4 +4,8 @@
     <string name="login">Connexion</string>
     <string name="password">Mot de passe</string>
     <string name="username">Login</string>
+    <string name="invalid_format">Format incorrect</string>
+    <string name="login_failed">La connexion a échoué</string>
+    <string name="home">Accueil</string>
+    <string name="settings">Réglages</string>
 </resources>
