@@ -13,6 +13,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import fr.sio.ecp.federatedbirds.R;
+import fr.sio.ecp.federatedbirds.auth.TokenManager;
 import fr.sio.ecp.federatedbirds.model.Message;
 
 public class MainActivity extends AppCompatActivity
@@ -25,6 +26,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (TokenManager.getUserToken(this) == null) {
+            //launch login activity
+            finish();
+        }
+
         setContentView(R.layout.activity_main);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -74,7 +81,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Loader<List<Message>> onCreateLoader(int id, Bundle args) {
-        return new MessagesLoader(this);
+        return new MessagesLoader(this, null);
     }
 
     @Override

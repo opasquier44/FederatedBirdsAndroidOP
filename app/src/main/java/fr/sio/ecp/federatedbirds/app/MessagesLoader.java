@@ -16,10 +16,12 @@ import fr.sio.ecp.federatedbirds.model.Message;
  */
 public class MessagesLoader extends AsyncTaskLoader<List<Message>> {
 
+    private Long mUserId;
     private List<Message> mResult;
 
-    public MessagesLoader(Context context) {
+    public MessagesLoader(Context context, Long userId) {
         super(context);
+        mUserId = userId;
     }
 
     @Override
@@ -35,11 +37,16 @@ public class MessagesLoader extends AsyncTaskLoader<List<Message>> {
     @Override
     public List<Message> loadInBackground() {
         try {
-            return ApiClient.getInstance().getMessages();
+            return ApiClient.getInstance(getContext()).getMessages(mUserId);
         } catch (IOException e) {
             Log.e("MessagesLoader", "Failed to load messages", e);
             return null;
         }
     }
 
+    @Override
+    public void deliverResult(List<Message> data) {
+        mResult = data;
+        super.deliverResult(data);
+    }
 }

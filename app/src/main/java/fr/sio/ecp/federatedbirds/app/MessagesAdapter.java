@@ -19,14 +19,14 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
 
     private List<Message> mMessages;
 
-    @Override
-    public int getItemCount() {
-        return mMessages != null ? mMessages.size() : 0;
-    }
-
     public void setMessages(List<Message> messages) {
         mMessages = messages;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        return mMessages != null ? mMessages.size() : 0;
     }
 
     @Override

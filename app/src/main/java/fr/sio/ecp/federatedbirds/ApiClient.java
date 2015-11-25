@@ -1,5 +1,7 @@
 package fr.sio.ecp.federatedbirds;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -12,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import fr.sio.ecp.federatedbirds.auth.TokenManager;
 import fr.sio.ecp.federatedbirds.model.Message;
 import fr.sio.ecp.federatedbirds.model.User;
 
@@ -24,25 +27,23 @@ public class ApiClient {
 
     private static ApiClient mInstance;
 
-    public static synchronized ApiClient getInstance() {
+    public static synchronized ApiClient getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new ApiClient();
+            mInstance = new ApiClient(context);
         }
         return mInstance;
     }
 
-    private ApiClient() {
+    private Context mContext;
 
-    }
-
-    private String getUserToken() {
-        return "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxIn0.jptU18MuPX0ytbzSqfNFSlhbxiTDAGpiYDcAQLRqC8ewAbW-7g--DNu3codmYEhVSWkliXSSjd3P596STCDO7g";
+    private ApiClient(Context context) {
+        mContext = context.getApplicationContext();
     }
 
     private <T> T get(String path, Type type) throws IOException {
         String url = API_BASE + path;
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        String token = getUserToken();
+        String token = TokenManager.getUserToken(mContext);
         if (token != null) {
             connection.addRequestProperty("Authorization", "Bearer " + token);
         }
@@ -54,13 +55,14 @@ public class ApiClient {
         }
     }
 
-    public List<Message> getMessages() throws IOException {
+    public List<Message> getMessages(Long userId) throws IOException {
         TypeToken<List<Message>> type = new TypeToken<List<Message>>() {};
-        return get("messages", type.getType());
+        String path = userId == null ? "messages" : "users/" + userId + "/messages";
+        return get(path, type.getType());
     }
 
     public User getUser(long id) throws IOException {
-        return get("users/" + id, User.class);
+        return get("users" + id, User.class);
     }
 
 }
