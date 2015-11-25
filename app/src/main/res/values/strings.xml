@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">FederatedBirds</string>
     <string name="hello">Hello world</string>
+    <string name="login">Connexion</string>
+    <string name="password">Mot de passe</string>
+    <string name="username">Login</string>
 </resources>

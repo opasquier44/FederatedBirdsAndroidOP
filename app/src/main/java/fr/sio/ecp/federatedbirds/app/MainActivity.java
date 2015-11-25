@@ -1,5 +1,6 @@
 package fr.sio.ecp.federatedbirds.app;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         if (TokenManager.getUserToken(this) == null) {
-            //launch login activity
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
 
