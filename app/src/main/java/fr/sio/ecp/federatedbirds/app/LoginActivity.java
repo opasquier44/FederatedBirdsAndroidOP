@@ -1,20 +1,12 @@
 package fr.sio.ecp.federatedbirds.app;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import java.io.IOException;
-
-import fr.sio.ecp.federatedbirds.ApiClient;
 import fr.sio.ecp.federatedbirds.R;
-import fr.sio.ecp.federatedbirds.auth.TokenManager;
 import fr.sio.ecp.federatedbirds.utils.ValidationUtils;
 
 public class LoginActivity extends AppCompatActivity {
@@ -54,39 +46,10 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        new LoginTask(this).execute(login, password);
+        LoginTaskFragment taskFragment = new LoginTaskFragment();
+        taskFragment.setArguments(login, password);
+        taskFragment.show(getSupportFragmentManager(), "login_task");
+
     }
 
-    private static class LoginTask extends AsyncTask<String, Void, String> {
-
-        Context mContext;
-
-        public LoginTask(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                String login = params[0];
-                String password = params[1];
-                return ApiClient.getInstance(mContext).login(login, password);
-            } catch (IOException e) {
-                Log.e(LoginActivity.class.getSimpleName(), "Login failed", e);
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String token) {
-            if (token != null) {
-                TokenManager.setUserToken(mContext, token);
-                mContext.startActivity(
-                        new Intent(mContext, MainActivity.class)
-                );
-            } else {
-                Toast.makeText(mContext, R.string.login_failed, Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 }

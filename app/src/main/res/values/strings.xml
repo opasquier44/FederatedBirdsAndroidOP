@@ -11,4 +11,5 @@
     <string name="open_menu">Ouvrir le menu</string>
     <string name="close_menu">Fermer le menu</string>
     <string name="logout">Déconnexion</string>
+    <string name="login_progress">Connexion en cours...</string>
 </resources>
