@@ -8,4 +8,7 @@
     <string name="login_failed">La connexion a échoué</string>
     <string name="home">Accueil</string>
     <string name="settings">Réglages</string>
+    <string name="open_menu">Ouvrir le menu</string>
+    <string name="close_menu">Fermer le menu</string>
+    <string name="logout">Déconnexion</string>
 </resources>

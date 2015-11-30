@@ -1,28 +1,21 @@
 package fr.sio.ecp.federatedbirds.app;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Toast;
-
-import java.util.List;
+import android.os.PersistableBundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import fr.sio.ecp.federatedbirds.R;
 import fr.sio.ecp.federatedbirds.auth.TokenManager;
-import fr.sio.ecp.federatedbirds.model.Message;
 
-public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<Message>> {
+public class MainActivity extends AppCompatActivity {
 
-    private static final int LOADER_MESSAGES = 0;
-
-    private MessagesAdapter mMessagesAdapter;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,62 +28,51 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
-            public void onClick(View v) {
-                Toast.makeText(
-                        MainActivity.this,
-                        "Clicked",
-                        Toast.LENGTH_SHORT
-                ).show();
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        return true;
+                    case R.id.settings:
+                        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        return true;
+                }
+                return false;
             }
 
         });
 
-        RecyclerView listView = (RecyclerView) findViewById(R.id.list);
-        listView.setLayoutManager(new LinearLayoutManager(this));
-        mMessagesAdapter = new MessagesAdapter();
-        listView.setAdapter(mMessagesAdapter);
+        if (savedInstanceState == null) {
+            HomeFragment fragment = new HomeFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_container, fragment)
+                    .commit();
+        }
+
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        getSupportLoaderManager().initLoader(
-                LOADER_MESSAGES,
-                null,
-                this
+    public void setSupportActionBar(Toolbar toolbar) {
+        super.setSupportActionBar(toolbar);
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                (DrawerLayout) findViewById(R.id.drawer),
+                toolbar,
+                R.string.open_menu,
+                R.string.close_menu
         );
+        mDrawerToggle.syncState();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onPostCreate(savedInstanceState, persistentState);
+        mDrawerToggle.syncState();
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public Loader<List<Message>> onCreateLoader(int id, Bundle args) {
-        return new MessagesLoader(this, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Message>> loader, List<Message> messages) {
-        mMessagesAdapter.setMessages(messages);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Message>> loader) { }
 
 }
