@@ -1,5 +1,7 @@
 package fr.sio.ecp.federatedbirds.app;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -27,6 +29,7 @@ public class HomeFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<List<Message>> {
 
     private static final int LOADER_MESSAGES = 0;
+    private static final int REQUEST_POST_MESSAGE = 0;
 
     private MessagesAdapter mMessagesAdapter;
 
@@ -53,15 +56,25 @@ public class HomeFragment extends Fragment
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(
-                        getContext(),
-                        "Clicked",
-                        Toast.LENGTH_SHORT
-                ).show();
+                PostMessageFragment postFragment = new PostMessageFragment();
+                postFragment.setTargetFragment(HomeFragment.this, REQUEST_POST_MESSAGE);
+                postFragment.show(getFragmentManager(), "post_dialog");
             }
 
         });
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_POST_MESSAGE:
+                if (resultCode == Activity.RESULT_OK) {
+                    getLoaderManager().restartLoader(LOADER_MESSAGES, null, this);
+                }
+                return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

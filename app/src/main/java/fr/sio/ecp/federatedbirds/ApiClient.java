@@ -25,7 +25,7 @@ import fr.sio.ecp.federatedbirds.model.User;
  */
 public class ApiClient {
 
-    private static final String API_BASE = "http://10.0.2.2:8080/";
+    private static final String API_BASE = "http://10.0.2.2:9000/";
 
     private static ApiClient mInstance;
 
@@ -96,6 +96,12 @@ public class ApiClient {
         body.addProperty("login", login);
         body.addProperty("password", password);
         return post("auth/token", body, String.class);
+    }
+
+    public Message postMessage(String text) throws IOException {
+        Message message = new Message();
+        message.text = text;
+        return post("messages", message, Message.class);
     }
 
 }
