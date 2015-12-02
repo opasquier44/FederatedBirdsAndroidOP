@@ -12,4 +12,5 @@
     <string name="close_menu">Fermer le menu</string>
     <string name="logout">Déconnexion</string>
     <string name="login_progress">Connexion en cours...</string>
+    <string name="followed">Abonnements</string>
 </resources>

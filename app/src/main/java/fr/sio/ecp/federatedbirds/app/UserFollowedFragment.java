@@ -2,7 +2,6 @@ package fr.sio.ecp.federatedbirds.app;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -13,27 +12,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.List;
 
 import fr.sio.ecp.federatedbirds.R;
-import fr.sio.ecp.federatedbirds.model.Message;
+import fr.sio.ecp.federatedbirds.model.User;
 
 /**
- * Created by Michaël on 26/11/2015.
+ * Created by Michaël on 30/11/2015.
  */
-public class HomeFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<List<Message>> {
+public class UserFollowedFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<User>> {
 
-    private static final int LOADER_MESSAGES = 0;
+    private static final int LOADER_USERS = 0;
 
-    private MessagesAdapter mMessagesAdapter;
+    private UsersAdapter mUsersAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_fragment, container, false);
+        return inflater.inflate(R.layout.users_fragment, container, false);
     }
 
     @Override
@@ -45,22 +42,8 @@ public class HomeFragment extends Fragment
 
         RecyclerView listView = (RecyclerView) view.findViewById(R.id.list);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mMessagesAdapter = new MessagesAdapter();
-        listView.setAdapter(mMessagesAdapter);
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(
-                        getContext(),
-                        "Clicked",
-                        Toast.LENGTH_SHORT
-                ).show();
-            }
-
-        });
+        mUsersAdapter = new UsersAdapter();
+        listView.setAdapter(mUsersAdapter);
 
     }
 
@@ -68,23 +51,23 @@ public class HomeFragment extends Fragment
     public void onStart() {
         super.onStart();
         getLoaderManager().initLoader(
-                LOADER_MESSAGES,
+                LOADER_USERS,
                 null,
                 this
         );
     }
 
     @Override
-    public Loader<List<Message>> onCreateLoader(int id, Bundle args) {
-        return new MessagesLoader(getContext(), null);
+    public Loader<List<User>> onCreateLoader(int id, Bundle args) {
+        return new FollowedLoader(getContext(), null);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Message>> loader, List<Message> messages) {
-        mMessagesAdapter.setMessages(messages);
+    public void onLoadFinished(Loader<List<User>> loader, List<User> users) {
+        mUsersAdapter.setUsers(users);
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Message>> loader) { }
+    public void onLoaderReset(Loader<List<User>> loader) { }
 
 }

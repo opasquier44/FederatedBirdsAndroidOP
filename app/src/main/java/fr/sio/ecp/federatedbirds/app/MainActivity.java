@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,19 +33,30 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.home:
+                        Fragment fragment = new HomeFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.main_container, fragment)
+                                .commit();
+                        return true;
+                    case R.id.followed:
+                        fragment = new UserFollowedFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.main_container, fragment)
+                                .commit();
                         return true;
                     case R.id.settings:
                         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                         startActivity(intent);
                         return true;
                 }
+                ((DrawerLayout) findViewById(R.id.drawer)).closeDrawer(navigationView);
                 return false;
             }
 
