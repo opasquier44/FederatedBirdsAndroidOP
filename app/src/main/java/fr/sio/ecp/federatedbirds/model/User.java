@@ -1,7 +1,8 @@
 package fr.sio.ecp.federatedbirds.model;
 
 /**
- * Created by Michaël on 24/11/2015.
+ * A model class to represent a single message.
+ * This entity is inflated by Gson from the API responses.
  */
 public class User {
 

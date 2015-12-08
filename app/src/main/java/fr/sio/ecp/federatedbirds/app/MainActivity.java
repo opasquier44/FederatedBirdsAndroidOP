@@ -15,6 +15,9 @@ import android.view.MenuItem;
 import fr.sio.ecp.federatedbirds.R;
 import fr.sio.ecp.federatedbirds.auth.TokenManager;
 
+/**
+ * The main activity of our app
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static Intent newIntent(Context context) {

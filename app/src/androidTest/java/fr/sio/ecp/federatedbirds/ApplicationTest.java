@@ -1,4 +1,4 @@
-package fb.sio.ecp.fr.federatedbirds;
+package fr.sio.ecp.federatedbirds;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

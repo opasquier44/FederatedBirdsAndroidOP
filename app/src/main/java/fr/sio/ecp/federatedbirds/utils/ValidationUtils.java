@@ -1,7 +1,7 @@
 package fr.sio.ecp.federatedbirds.utils;
 
 /**
- * Created by Michaël on 02/11/2015.
+ * Some utils to validate user input. We must do it both client (for better UX) and server side (for security)
  */
 public class ValidationUtils {
 

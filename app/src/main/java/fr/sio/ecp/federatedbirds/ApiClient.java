@@ -21,14 +21,19 @@ import fr.sio.ecp.federatedbirds.model.Message;
 import fr.sio.ecp.federatedbirds.model.User;
 
 /**
- * Created by Michaël on 24/11/2015.
+ * This class represents the API service and exposes all its endpoints through simple methods.
+ * The client is initialized with the Context of the application to access the shared preferences (token storage).
  */
 public class ApiClient {
 
+    // The API base URL
+    // TODO: Replace by a mechanism to read the API base from the Shared Preferences
     private static final String API_BASE = "http://10.0.2.2:8080/";
 
+    // A singleton instance
     private static ApiClient mInstance;
 
+    // Public getter to access and initialize the singleton
     public static synchronized ApiClient getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new ApiClient(context);
@@ -39,26 +44,43 @@ public class ApiClient {
     private Context mContext;
 
     private ApiClient(Context context) {
+        // To avoid leaking, never hold a reference to the context its self (this could be an Activity)
+        // Instead, call getApplicationContext() to get a memory-safe instance (this may return the same context object or a different one)
         mContext = context.getApplicationContext();
     }
 
+    // An internal method to execute a GET request
     private <T> T get(String path, Type type) throws IOException {
         return method("GET", path, null, type);
     }
 
+    // An internal method to execute a POST request
     private <T> T post(String path, Object body, Type type) throws IOException {
         return method("POST", path, body, type);
     }
 
-    private <T> T method(String method, String path, Object body, Type type) throws IOException {
+    /**
+     * A common method to perform an HTTP request
+     * @param method The HTTP method to use
+     * @param path The relative path to call
+     * @param body An object that will sent as JSON in the request body (must be null for a GET request)
+     * @param responseType The type of the response, to be parsed from JSON
+     * @param <T> The generic type of the response
+     * @return The response to the request, parsed from JSON
+     * @throws IOException is something goes wrong
+     */
+    private <T> T method(String method, String path, Object body, Type responseType) throws IOException {
         String url = API_BASE + path;
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        // At this point we have opened a connection to the URL, we can send headers
         connection.setRequestMethod(method);
         String token = TokenManager.getUserToken(mContext);
         if (token != null) {
+            // If the user is connected, add a header to the request with the token
             connection.addRequestProperty("Authorization", "Bearer " + token);
         }
         if (body != null) {
+            // Write the request body with Gson library
             Writer writer = new OutputStreamWriter(connection.getOutputStream());
             try {
                 new Gson().toJson(body, writer);
@@ -66,9 +88,10 @@ public class ApiClient {
                 writer.close();
             }
         }
+        // Write the request body with Gson library
         Reader reader = new InputStreamReader(connection.getInputStream());
         try {
-            return new Gson().fromJson(reader, type);
+            return new Gson().fromJson(reader, responseType);
         } finally {
             reader.close();
         }
