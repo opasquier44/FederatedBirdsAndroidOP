@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import fr.sio.ecp.federatedbirds.R;
@@ -38,8 +40,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MessageViewH
     @Override
     public void onBindViewHolder(MessageViewHolder holder, int position) {
         User user = mUsers.get(position);
-        //holder.mUserAvatarView.setImageDrawable();
-        //message.user.avatar;
+
+        Picasso.with(holder.mAvatarView.getContext())
+                .load(user.avatar)
+                .into(holder.mAvatarView);
+
         holder.mUsernameView.setText(user.login);
     }
 

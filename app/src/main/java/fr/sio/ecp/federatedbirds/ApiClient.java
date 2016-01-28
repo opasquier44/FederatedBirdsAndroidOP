@@ -121,4 +121,10 @@ public class ApiClient {
         return post("auth/token", body, String.class);
     }
 
+    public Message postMessage(String text) throws IOException {
+        Message message = new Message();
+        message.text = text;
+        return post("messages", message, Message.class);
+    }
+
 }
