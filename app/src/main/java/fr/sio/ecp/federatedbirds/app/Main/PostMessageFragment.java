@@ -1,4 +1,4 @@
-package fr.sio.ecp.federatedbirds.app;
+package fr.sio.ecp.federatedbirds.app.Main;
 
 import android.app.Activity;
 import android.app.Dialog;

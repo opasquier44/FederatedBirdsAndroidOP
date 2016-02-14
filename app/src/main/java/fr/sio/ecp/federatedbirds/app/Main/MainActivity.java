@@ -1,4 +1,4 @@
-package fr.sio.ecp.federatedbirds.app;
+package fr.sio.ecp.federatedbirds.app.Main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import fr.sio.ecp.federatedbirds.R;
+import fr.sio.ecp.federatedbirds.app.Login.LoginActivity;
+import fr.sio.ecp.federatedbirds.app.UserFollowedFragment;
 import fr.sio.ecp.federatedbirds.auth.TokenManager;
 
 /**

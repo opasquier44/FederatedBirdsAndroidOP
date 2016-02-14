@@ -1,4 +1,4 @@
-package fr.sio.ecp.federatedbirds.app;
+package fr.sio.ecp.federatedbirds.app.Login;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,11 +22,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-    }
+
+        }
 
     private void login() {
 
-        // Get form views
         EditText usernameText = (EditText) findViewById(R.id.username);
         EditText passwordText = (EditText) findViewById(R.id.password);
 
@@ -49,6 +49,13 @@ public class LoginActivity extends AppCompatActivity {
         taskFragment.setArguments(login, password);
         taskFragment.show(getSupportFragmentManager(), "login_task");
 
+    }
+
+    private void signin(){
+        SignInFragment signInFragment = new SignInFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, signInFragment)
+                .commit();
     }
 
 }

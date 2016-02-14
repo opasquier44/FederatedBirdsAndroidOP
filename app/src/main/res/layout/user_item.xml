@@ -7,6 +7,7 @@
 
     <ImageView
         android:id="@+id/avatar"
+
         android:scaleType="centerCrop"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -18,5 +19,11 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"/>
+
+    <Button android:text="Browse gallery"
+        android:id="@+id/Button01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </Button>
 
 </LinearLayout>

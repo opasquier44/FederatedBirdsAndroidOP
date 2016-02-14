@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="follow" type="id" />
+    <item name="unfollow" type="id" />
+    <item name="signin" type="id" />
+    <item name="email" type="id" />
+    <item name="imgView" type="id" />
+</resources>

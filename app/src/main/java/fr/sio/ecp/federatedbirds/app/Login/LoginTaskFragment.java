@@ -1,8 +1,7 @@
-package fr.sio.ecp.federatedbirds.app;
+package fr.sio.ecp.federatedbirds.app.Login;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +15,7 @@ import java.io.IOException;
 
 import fr.sio.ecp.federatedbirds.ApiClient;
 import fr.sio.ecp.federatedbirds.R;
+import fr.sio.ecp.federatedbirds.app.Main.MainActivity;
 import fr.sio.ecp.federatedbirds.auth.TokenManager;
 
 /**
@@ -23,8 +23,8 @@ import fr.sio.ecp.federatedbirds.auth.TokenManager;
  */
 public class LoginTaskFragment extends DialogFragment {
 
-    private static final String ARG_LOGIN = "login";
-    private static final String ARG_PASSWORD = "password";
+    protected static final String ARG_LOGIN = "login";
+    protected static final String ARG_PASSWORD = "password";
 
     public void setArguments(String login, String password) {
         Bundle args = new Bundle();

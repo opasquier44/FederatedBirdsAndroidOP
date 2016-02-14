@@ -20,17 +20,15 @@ import fr.sio.ecp.federatedbirds.auth.TokenManager;
 import fr.sio.ecp.federatedbirds.model.Message;
 import fr.sio.ecp.federatedbirds.model.User;
 
-/**
- * This class represents the API service and exposes all its endpoints through simple methods.
- * The client is initialized with the Context of the application to access the shared preferences (token storage).
- */
+
 public class ApiClient {
 
-    // The API base URL
-    // TODO: Replace by a mechanism to read the API base from the Shared Preferences
+
     private static final String API_BASE = "http://10.0.2.2:8080/";
 
-    // A singleton instance
+    private String continuationToken = "test";
+    private String limit = "20";
+
     private static ApiClient mInstance;
 
     // Public getter to access and initialize the singleton
@@ -59,16 +57,7 @@ public class ApiClient {
         return method("POST", path, body, type);
     }
 
-    /**
-     * A common method to perform an HTTP request
-     * @param method The HTTP method to use
-     * @param path The relative path to call
-     * @param body An object that will sent as JSON in the request body (must be null for a GET request)
-     * @param responseType The type of the response, to be parsed from JSON
-     * @param <T> The generic type of the response
-     * @return The response to the request, parsed from JSON
-     * @throws IOException is something goes wrong
-     */
+
     private <T> T method(String method, String path, Object body, Type responseType) throws IOException {
         String url = API_BASE + path;
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -125,6 +114,24 @@ public class ApiClient {
         Message message = new Message();
         message.text = text;
         return post("messages", message, Message.class);
+    }
+
+    public User setFollow(Long following_id, boolean follow) throws IOException {
+        JsonObject body = new JsonObject();
+        if (follow) {
+            body.addProperty("followed", "true");
+        } else {
+            body.addProperty("followed", "false");
+        }
+        return post("users/" + following_id.toString(), body, User.class);
+    }
+
+    public String newUser(String login, String password, String email) throws IOException {
+        JsonObject body = new JsonObject();
+        body.addProperty("login", login);
+        body.addProperty("password", password);
+        body.addProperty("email", email);
+        return post("users", body, String.class);
     }
 
 }

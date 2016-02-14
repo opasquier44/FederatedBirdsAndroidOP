@@ -5,10 +5,11 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.sio.ecp.federatedbirds.app.LoginActivity">
+    tools:context=".app.Login.LoginActivity">
 
     <LinearLayout
         android:layout_margin="56dp"
+        android:id = "@+id/container"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="match_parent"

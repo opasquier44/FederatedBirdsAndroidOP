@@ -1,4 +1,4 @@
-package fr.sio.ecp.federatedbirds.app;
+package fr.sio.ecp.federatedbirds.app.Main;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

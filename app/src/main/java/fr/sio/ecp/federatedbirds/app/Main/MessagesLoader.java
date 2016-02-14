@@ -1,4 +1,4 @@
-package fr.sio.ecp.federatedbirds.app;
+package fr.sio.ecp.federatedbirds.app.Main;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
